@@ -14,6 +14,7 @@
   --color-accent-cyan: var(--accent-cyan);
   --color-accent-magenta: var(--accent-magenta);
   --color-accent-violet: var(--accent-violet);
+  --font-cormorant: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
   --font-orbitron: var(--font-orbitron), sans-serif;
   --font-outfit: var(--font-outfit), sans-serif;
 }
