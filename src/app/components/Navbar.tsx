@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 
 export default function Navbar() {
@@ -24,18 +23,15 @@ export default function Navbar() {
         {/* Nav content sits inside the scrim */}
         <nav className="relative flex items-center justify-between px-4 pt-3 pb-2 pointer-events-auto">
           {/* Logo — left */}
-          <a href="/" aria-label="Arcade Expeditions home">
-            <div className="relative h-10 w-28 md:h-12 md:w-36">
-              <Image
-                src="/arcane_expeditions_logo.jpeg"
-                alt="Arcade Expeditions"
-                fill
-                sizes="(max-width: 768px) 112px, 144px"
-                style={{ objectFit: "contain", objectPosition: "left center" }}
-                className="drop-shadow-lg"
-                loading="eager"
-              />
-            </div>
+          <a href="/" aria-label="Arcane Expeditions home" className="flex items-center">
+            <img
+              src="/arcane-expeditions-logo.svg"
+              alt="Arcane Expeditions"
+              className="h-12 md:h-16 w-auto"
+              style={{ filter: "drop-shadow(0 1px 4px rgba(0,0,0,0.6))" }}
+              fetchPriority="high"
+              loading="eager"
+            />
           </a>
 
           {/* Right controls */}
@@ -79,23 +75,20 @@ export default function Navbar() {
             >
               {/* Three bars that animate to X */}
               <span
-                className={`block h-[1.5px] bg-white rounded-full transition-all duration-300 origin-center ${
-                  menuOpen
-                    ? "w-4 translate-y-[6.5px] rotate-45"
-                    : "w-4"
-                }`}
+                className={`block h-[1.5px] bg-white rounded-full transition-all duration-300 origin-center ${menuOpen
+                  ? "w-4 translate-y-[6.5px] rotate-45"
+                  : "w-4"
+                  }`}
               />
               <span
-                className={`block h-[1.5px] bg-white rounded-full transition-all duration-200 ${
-                  menuOpen ? "w-0 opacity-0" : "w-4 opacity-100"
-                }`}
+                className={`block h-[1.5px] bg-white rounded-full transition-all duration-200 ${menuOpen ? "w-0 opacity-0" : "w-4 opacity-100"
+                  }`}
               />
               <span
-                className={`block h-[1.5px] bg-white rounded-full transition-all duration-300 origin-center ${
-                  menuOpen
-                    ? "w-4 -translate-y-[6.5px] -rotate-45"
-                    : "w-4"
-                }`}
+                className={`block h-[1.5px] bg-white rounded-full transition-all duration-300 origin-center ${menuOpen
+                  ? "w-4 -translate-y-[6.5px] -rotate-45"
+                  : "w-4"
+                  }`}
               />
             </button>
           </div>
