@@ -20,9 +20,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     };
 
     const sizes = {
-      default: "px-4 py-2 text-sm rounded-sm",
-      sm: "px-3 py-1 text-xs rounded-sm",
-      lg: "px-9 py-6 text-base rounded-sm",
+      default: "px-4 py-2 text-sm rounded-full",
+      sm: "px-3 py-1 text-xs rounded-full",
+      lg: "px-9 py-6 text-base rounded-full",
     };
 
     const combinedClassName = `${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`;
