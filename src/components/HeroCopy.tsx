@@ -23,8 +23,6 @@ export function HeroCopy() {
           border border-luxury-gold rounded-full
           px-7 py-2.5
           bg-luxury-gold text-luxury-charcoal
-          md:bg-transparent md:text-luxury-cream
-          hover:bg-luxury-gold hover:text-luxury-charcoal
           transition-all duration-200
         "
       >
