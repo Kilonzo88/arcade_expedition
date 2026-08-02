@@ -1,7 +1,15 @@
 import type { Metadata } from "next";
-import { Orbitron, Outfit } from "next/font/google";
+import { Cormorant_Garamond, Orbitron, Outfit, Bodoni_Moda, Instrument_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
+import FloatingWhatsApp from "./components/FloatingWhatsApp";
+
+const cormorantGaramond = Cormorant_Garamond({
+  variable: "--font-cormorant",
+  subsets: ["latin"],
+  weight: ["300", "400", "600"],
+  style: ["normal", "italic"],
+});
 
 const orbitron = Orbitron({
   variable: "--font-orbitron",
@@ -11,6 +19,25 @@ const orbitron = Orbitron({
 const outfit = Outfit({
   variable: "--font-outfit",
   subsets: ["latin"],
+});
+
+const bodoniModa = Bodoni_Moda({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  style: ["italic"],
+  variable: "--font-display",
+});
+
+const instrumentSans = Instrument_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-sans",
+});
+
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-mono",
 });
 
 export const metadata: Metadata = {
@@ -26,12 +53,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${orbitron.variable} ${outfit.variable} h-full antialiased`}
+      className={`${cormorantGaramond.variable} ${orbitron.variable} ${outfit.variable} ${bodoniModa.variable} ${instrumentSans.variable} ${plexMono.variable} h-full antialiased`}
       style={{ colorScheme: "dark" }}
     >
       <body className="min-h-full flex flex-col justify-start">
         <Navbar />
         {children}
+        <FloatingWhatsApp />
       </body>
     </html>
   );
