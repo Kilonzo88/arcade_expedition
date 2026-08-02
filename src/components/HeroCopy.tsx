@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 export function HeroCopy() {
   return (
     <div className="absolute left-6 right-6 top-[55%] bottom-auto md:left-16 md:right-auto md:top-auto md:bottom-16 md:max-w-xl z-20">
-      <h1 className="font-display italic font-medium text-4xl md:text-6xl leading-[1.15] text-luxury-cream mb-4">
+      <h1 className="font-cormorant italic font-medium text-4xl md:text-6xl leading-[1.15] text-luxury-cream mb-4">
         The wild,
         <br />
         without compromise
