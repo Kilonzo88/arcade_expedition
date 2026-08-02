@@ -6,6 +6,10 @@
   --accent-cyan: #06b6d4;
   --accent-magenta: #d946ef;
   --accent-violet: #8b5cf6;
+  --luxury-gold: #694B0B;
+  --luxury-cream: #ffffff;
+  --luxury-tan: #d4c5a9;
+  --luxury-charcoal: #ffffff;
 }
 
 @theme inline {
@@ -14,6 +18,10 @@
   --color-accent-cyan: var(--accent-cyan);
   --color-accent-magenta: var(--accent-magenta);
   --color-accent-violet: var(--accent-violet);
+  --color-luxury-gold: var(--luxury-gold);
+  --color-luxury-cream: var(--luxury-cream);
+  --color-luxury-tan: var(--luxury-tan);
+  --color-luxury-charcoal: var(--luxury-charcoal);
   --font-cormorant: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
   --font-orbitron: var(--font-orbitron), sans-serif;
   --font-outfit: var(--font-outfit), sans-serif;
