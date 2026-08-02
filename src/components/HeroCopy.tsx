@@ -17,9 +17,16 @@ export function HeroCopy() {
       </p>
 
       <Button
-        size="lg"
         variant="outline"
-        className="w-full md:w-auto font-sans font-medium border-luxury-gold text-luxury-cream bg-transparent hover:bg-luxury-gold hover:text-luxury-charcoal rounded-sm px-9 py-6 text-base"
+        className="
+          font-sans font-medium tracking-widest text-sm
+          border border-luxury-gold rounded-full
+          px-7 py-2.5
+          bg-luxury-gold text-luxury-charcoal
+          md:bg-transparent md:text-luxury-cream
+          hover:bg-luxury-gold hover:text-luxury-charcoal
+          transition-all duration-200
+        "
       >
         Plan your journey
       </Button>
