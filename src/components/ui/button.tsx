@@ -4,7 +4,7 @@ import * as React from "react";
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "default" | "outline";
+  variant?: "default" | "outline" | "gold";
   size?: "default" | "lg" | "sm";
 }
 
@@ -16,6 +16,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const variants = {
       default: "bg-white text-black hover:bg-white/90",
       outline: "border border-luxury-gold text-luxury-cream bg-transparent hover:bg-luxury-gold hover:text-luxury-charcoal",
+      gold: "border border-luxury-gold bg-luxury-gold text-luxury-charcoal hover:bg-luxury-gold/90",
     };
 
     const sizes = {

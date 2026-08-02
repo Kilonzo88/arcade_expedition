@@ -17,12 +17,11 @@ export function HeroCopy() {
       </p>
 
       <Button
-        variant="outline"
+        variant="gold"
         className="
           font-sans font-medium tracking-widest text-sm
-          border border-luxury-gold rounded-full
+          rounded-full
           px-7 py-2.5
-          bg-luxury-gold text-luxury-charcoal
           transition-all duration-200
         "
       >
