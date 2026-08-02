@@ -21,7 +21,7 @@ export default function Navbar() {
         />
 
         {/* Nav content sits inside the scrim */}
-        <nav className="relative flex items-center justify-between px-4 pt-3 pb-2 pointer-events-auto">
+        <nav className="relative flex items-center justify-between px-6 md:px-16 pt-3 pb-2 pointer-events-auto">
           {/* Logo — left */}
           <a href="/" aria-label="Arcane Expeditions home" className="flex items-center">
             <img
