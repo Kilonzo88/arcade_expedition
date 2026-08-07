@@ -22,7 +22,7 @@ export default function Home() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
 
           {/* View All Journeys CTA */}
-          <div className="mt-4 mb-10 md:mb-16 flex justify-start">
+          <div className="mt-4 mb-10 md:mb-16 flex justify-center">
             <Link
               href="/journeys"
               className="block w-full md:w-auto md:min-w-[280px] text-center"
