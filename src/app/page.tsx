@@ -27,7 +27,7 @@ export default function Home() {
       {/* ── Home Footer ──────────────────────────────────────── */}
       <HomeFooter />
 
-      {/* ── Journeys Listing Section (Below Home Footer) ──────── */}
+      {/* ── Journeys Section ──────────────────────────────────── */}
       <JourneysSection />
 
       {/* ── Page Footer ──────────────────────────────────────── */}
