@@ -3,7 +3,7 @@ import { HeroCopy } from "@/components/HeroCopy";
 import CuratedCollections from "./components/CuratedCollections";
 import HomePhilosophy from "./components/HomePhilosophy";
 import HomeFooter from "./components/HomeFooter";
-import Link from "next/link";
+import JourneysSection from "./components/JourneysSection";
 
 export default function Home() {
   return (
@@ -17,37 +17,20 @@ export default function Home() {
       {/* ── Curated Collections carousel ─────────────────────── */}
       <CuratedCollections />
 
-      {/* ── Shared container: CTA + Philosophy + Footer ──────── */}
+      {/* ── Shared container: Philosophy ─────────────────────── */}
       <div className="section-ivory">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
-
-          {/* View All Journeys CTA */}
-          <div className="mt-4 mb-10 md:mb-16 flex justify-center">
-            <Link
-              href="/journeys"
-              className="block w-full md:w-auto md:min-w-[280px] text-center"
-              style={{
-                backgroundColor: "var(--dark)",
-                color: "var(--ivory)",
-                borderRadius: "2px",
-                padding: "16px",
-                fontSize: "14px",
-                textDecoration: "none",
-                fontFamily: "var(--font-sans)",
-                letterSpacing: "0.04em",
-              }}
-            >
-              View All Journeys
-            </Link>
-          </div>
-
-          {/* Philosophy strip */}
           <HomePhilosophy />
-
         </div>
       </div>
 
-      {/* ── Footer ───────────────────────────────────────────── */}
+      {/* ── Home Footer ──────────────────────────────────────── */}
+      <HomeFooter />
+
+      {/* ── Journeys Listing Section (Below Home Footer) ──────── */}
+      <JourneysSection />
+
+      {/* ── Page Footer ──────────────────────────────────────── */}
       <HomeFooter />
     </>
   );
