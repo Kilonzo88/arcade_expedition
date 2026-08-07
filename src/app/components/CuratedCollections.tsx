@@ -90,6 +90,26 @@ export default function CuratedCollections() {
           ))}
         </div>
       </div>
+
+      {/* ── View All Journeys CTA ────────────────────────────── */}
+      <div className="mt-8 pb-10 max-w-[1200px] mx-auto px-6 md:px-12 flex justify-center">
+        <Link
+          href="/journeys"
+          className="block w-full md:w-auto md:min-w-[280px] text-center transition-opacity hover:opacity-90"
+          style={{
+            backgroundColor: "var(--dark)",
+            color: "var(--ivory)",
+            borderRadius: "2px",
+            padding: "16px",
+            fontSize: "14px",
+            textDecoration: "none",
+            fontFamily: "var(--font-sans)",
+            letterSpacing: "0.04em",
+          }}
+        >
+          View All Journeys
+        </Link>
+      </div>
     </section>
   );
 }
