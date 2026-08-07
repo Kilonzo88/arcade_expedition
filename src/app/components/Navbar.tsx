@@ -1,13 +1,18 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  // One-way lock: starts false, flips to true once scroll > 60px, never reverts
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+
+  const isNonHero = pathname !== "/";
+  const isSolid = scrolled || isNonHero;
 
   useEffect(() => {
+    if (isNonHero) return;
     const onScroll = () => {
       if (window.scrollY > 60) {
         setScrolled(true);
@@ -16,20 +21,22 @@ export default function Navbar() {
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [isNonHero]);
 
   return (
     <>
       {/* ── Fixed header shell ──────────────────────────────── */}
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-[#16140F]" : "bg-transparent"
-          }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          isSolid ? "bg-[#16140F]" : "bg-transparent"
+        }`}
       >
         {/* Gradient scrim — fades out once scrolled */}
         <div
           aria-hidden="true"
-          className={`absolute inset-x-0 top-0 pointer-events-none transition-opacity duration-500 ${scrolled ? "opacity-0" : "opacity-100"
-            }`}
+          className={`absolute inset-x-0 top-0 pointer-events-none transition-opacity duration-500 ${
+            isSolid ? "opacity-0" : "opacity-100"
+          }`}
           style={{
             height: "15vh",
             background:
@@ -50,9 +57,11 @@ export default function Navbar() {
                 w-9 h-9 rounded-full
                 border transition-all duration-200
                 backdrop-blur-sm
-                ${scrolled
-                  ? "border-dark/30 bg-dark/5 hover:bg-dark/10 hover:border-dark/60"
-                  : "border-white/30 bg-white/10 hover:bg-white/20 hover:border-white/60"
+                ${isSolid
+                  ? "border-white/30 bg-white/10 text-white hover:bg-white/20 hover:border-white/60"
+                  : scrolled
+                  ? "border-dark/30 bg-dark/5 text-dark hover:bg-dark/10 hover:border-dark/60"
+                  : "border-white/30 bg-white/10 text-white hover:bg-white/20 hover:border-white/60"
                 }
               `}
             >
@@ -102,9 +111,11 @@ export default function Navbar() {
                 border transition-all duration-200
                 backdrop-blur-sm
                 cursor-pointer
-                ${scrolled
-                  ? "border-dark/30 bg-dark/5 hover:bg-dark/10 hover:border-dark/60"
-                  : "border-white/30 bg-white/10 hover:bg-white/20 hover:border-white/60"
+                ${isSolid
+                  ? "border-white/30 bg-white/10 text-white hover:bg-white/20 hover:border-white/60"
+                  : scrolled
+                  ? "border-dark/30 bg-dark/5 text-dark hover:bg-dark/10 hover:border-dark/60"
+                  : "border-white/30 bg-white/10 text-white hover:bg-white/20 hover:border-white/60"
                 }
               `}
             >
