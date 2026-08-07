@@ -31,7 +31,7 @@ export default function CuratedCollections() {
           CURATED COLLECTIONS
         </p>
         <h2 className="font-display italic text-2xl md:text-[34px] leading-tight text-dark mb-6">
-          Three Journeys, One Standard
+          Different Journeys, One Standard
         </h2>
         {/* Brass gold divider */}
         <div
