@@ -16,17 +16,19 @@ export function HeroCopy() {
         last detail.
       </p>
 
-      <Button
-        variant="gold"
-        className="
-          font-sans font-medium tracking-widest text-sm
-          rounded-full
-          px-7 py-2.5
-          transition-all duration-200
-        "
-      >
-        Plan your journey
-      </Button>
+      <a href="#contact">
+        <Button
+          variant="gold"
+          className="
+            font-sans font-medium tracking-widest text-sm
+            rounded-full
+            px-7 py-2.5
+            transition-all duration-200
+          "
+        >
+          Plan your journey
+        </Button>
+      </a>
     </div>
   );
 }
