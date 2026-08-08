@@ -15,7 +15,7 @@ const pillars = [
 
 export default function AboutSection() {
   return (
-    <section className="section-ivory py-10 md:py-20">
+    <section className="section-ivory py-10 md:py-20 text-center">
       <div className="max-w-[1200px] mx-auto px-6 md:px-12">
         {/* ── Eyebrow ──────────────────────────────────────── */}
         <p
@@ -27,7 +27,7 @@ export default function AboutSection() {
 
         {/* ── Headline ─────────────────────────────────────── */}
         <h2
-          className="font-display italic text-3xl md:text-5xl leading-[1.25] mb-5 md:mb-7"
+          className="font-display italic text-3xl md:text-5xl leading-[1.25] mb-5 md:mb-7 mx-auto"
           style={{ color: "#16140F" }}
         >
           Built by people who&rsquo;ve walked&nbsp;it
@@ -35,7 +35,7 @@ export default function AboutSection() {
 
         {/* ── Body paragraph ───────────────────────────────── */}
         <p
-          className="max-w-[620px] mb-10 md:mb-14"
+          className="max-w-[620px] mx-auto mb-10 md:mb-14"
           style={{
             fontFamily: "var(--font-sans)",
             fontSize: "13px",
@@ -51,7 +51,7 @@ export default function AboutSection() {
 
         {/* ── Value pillars ────────────────────────────────── */}
         <div
-          className="flex flex-col gap-4"
+          className="max-w-[620px] mx-auto flex flex-col gap-5 text-center"
           style={{
             borderTop: "1px solid rgba(22,20,15,0.15)",
             paddingTop: "20px",
