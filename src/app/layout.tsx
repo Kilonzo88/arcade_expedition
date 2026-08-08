@@ -30,7 +30,7 @@ const bodoniModa = Bodoni_Moda({
 
 const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400", "500", "600"],
   variable: "--font-sans",
 });
 
