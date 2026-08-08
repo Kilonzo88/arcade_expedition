@@ -150,7 +150,7 @@ export default function Navbar() {
         `}
       >
         <nav className="flex flex-col items-center gap-6 py-10 text-white">
-          {/* Plan Your Journey — first/most prominent per spec */}
+          {/* Plan Your Journey — first/most prominent */}
           <a
             href="/journeys"
             onClick={() => setMenuOpen(false)}
@@ -158,9 +158,13 @@ export default function Navbar() {
           >
             Plan Your Journey
           </a>
-          <p className="text-xs uppercase tracking-widest text-white/40">
-            More menu coming soon
-          </p>
+          <a
+            href="/about"
+            onClick={() => setMenuOpen(false)}
+            className="font-sans text-base tracking-widest uppercase text-white hover:text-white/70 transition-colors"
+          >
+            Our Story
+          </a>
         </nav>
       </div>
     </>
