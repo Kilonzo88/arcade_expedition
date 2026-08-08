@@ -5,6 +5,7 @@ import HomePhilosophy from "./components/HomePhilosophy";
 import HomeFooter from "./components/HomeFooter";
 import JourneysSection from "./components/JourneysSection";
 import AboutSection from "./components/AboutSection";
+import ContactSection from "./components/ContactSection";
 
 export default function Home() {
   return (
@@ -33,6 +34,9 @@ export default function Home() {
 
       {/* ── About / Our Story ─────────────────────────────────── */}
       <AboutSection />
+
+      {/* ── Plan Your Journey / Contact Section ──────────────── */}
+      <ContactSection />
 
       {/* ── Page Footer ──────────────────────────────────────── */}
       <HomeFooter />
