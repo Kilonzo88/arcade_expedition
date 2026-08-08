@@ -78,7 +78,7 @@ export default function CuratedCollections() {
                       {journey.meta}
                     </p>
                     <p className="font-display italic text-[19px] md:text-2xl leading-[1.2] text-ivory mb-3 md:mb-4">
-                      {journey.title}
+                      {journey.carouselTitle || journey.title}
                     </p>
                     <span className="inline-block text-[11px] md:text-[13px] text-ivory border border-white/70 px-[14px] py-[7px] md:px-[18px] md:py-[8px] rounded-[2px] tracking-[0.04em]">
                       Explore
