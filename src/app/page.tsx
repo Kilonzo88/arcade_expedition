@@ -4,6 +4,7 @@ import CuratedCollections from "./components/CuratedCollections";
 import HomePhilosophy from "./components/HomePhilosophy";
 import HomeFooter from "./components/HomeFooter";
 import JourneysSection from "./components/JourneysSection";
+import AboutSection from "./components/AboutSection";
 
 export default function Home() {
   return (
@@ -29,6 +30,9 @@ export default function Home() {
 
       {/* ── Journeys Section ──────────────────────────────────── */}
       <JourneysSection />
+
+      {/* ── About / Our Story ─────────────────────────────────── */}
+      <AboutSection />
 
       {/* ── Page Footer ──────────────────────────────────────── */}
       <HomeFooter />
