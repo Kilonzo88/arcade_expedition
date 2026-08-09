@@ -14,6 +14,7 @@ export const contactFormSchema = z.object({
   flexibleDatesText: z.string().optional(),
   message: z.string().optional(),
   company: z.string().optional(), // Honeypot field
+  turnstileToken: z.string().optional(),
 });
 
 export type ContactFormData = z.infer<typeof contactFormSchema>;
@@ -25,8 +26,25 @@ export async function submitContactForm(data: ContactFormData) {
 
     // 2. Honeypot check (silent rejection for spam bots)
     if (validated.company && validated.company.trim() !== "") {
-      // Return success to the client without sending email (don't alert bot)
       return { success: true };
+    }
+
+    // 3. Turnstile token verification (if secret key configured)
+    const turnstileSecret = process.env.TURNSTILE_SECRET_KEY;
+    if (turnstileSecret && validated.turnstileToken) {
+      const verifyRes = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          secret: turnstileSecret,
+          response: validated.turnstileToken,
+        }),
+      });
+      const verifyOutcome = await verifyRes.json();
+      if (!verifyOutcome.success) {
+        // Treat as failed honeypot check silently
+        return { success: true };
+      }
     }
 
     // 3. Prepare email content
@@ -60,8 +78,8 @@ ${validated.message || "No additional message provided."}
     if (resendApiKey) {
       const resend = new Resend(resendApiKey);
       await resend.emails.send({
-        from: "Arcane Expeditions Inquiry <hello@arcaneexpeditions.com>",
-        to: ["hello@arcaneexpeditions.com"],
+        from: "Arcane Expeditions Inquiry <onboarding@resend.dev>",
+        to: ["arcaneexpeditions@outlook.com"],
         subject: `New Safari Inquiry: ${validated.journey} - ${validated.fullName}`,
         text: emailBody,
         replyTo: validated.email,
