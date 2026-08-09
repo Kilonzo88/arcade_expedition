@@ -31,15 +31,16 @@ export default function Home() {
 
       {/* ── Journeys Section ──────────────────────────────────── */}
       <JourneysSection />
+      <HomeFooter />
 
       {/* ── About / Our Story ─────────────────────────────────── */}
       <AboutSection />
+      <HomeFooter />
 
       {/* ── Plan Your Journey / Contact Section ──────────────── */}
       <ContactSection />
-
-      {/* ── Page Footer ──────────────────────────────────────── */}
       <HomeFooter />
     </>
   );
 }
+
