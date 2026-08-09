@@ -1,9 +1,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Turnstile } from "@marsidev/react-turnstile";
 import { contactFormSchema, ContactFormData, submitContactForm } from "@/app/contact/actions";
 
 const journeyOptions = [
@@ -17,6 +19,7 @@ export default function ContactForm() {
   const searchParams = useSearchParams();
   const [serverError, setServerError] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
 
   const {
     register,
@@ -37,6 +40,7 @@ export default function ContactForm() {
       flexibleDatesText: "",
       message: "",
       company: "",
+      turnstileToken: "",
     },
   });
 
@@ -59,7 +63,10 @@ export default function ContactForm() {
 
   const onSubmit = async (data: ContactFormData) => {
     setServerError(null);
-    const res = await submitContactForm(data);
+    const res = await submitContactForm({
+      ...data,
+      turnstileToken: turnstileToken || data.turnstileToken,
+    });
     if (res.success) {
       setIsSuccess(true);
     } else {
@@ -246,6 +253,18 @@ export default function ContactForm() {
         </div>
       )}
 
+      {/* 7. Turnstile Widget (placed directly above Send Inquiry button inside the form) */}
+      <div className="flex justify-center pt-2">
+        <Turnstile
+          siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "1x00000000000000000000AA"}
+          onSuccess={(token) => {
+            setTurnstileToken(token);
+            setValue("turnstileToken", token);
+          }}
+          options={{ theme: "light" }}
+        />
+      </div>
+
       {/* Submit Button */}
       <div className="pt-2">
         <button
@@ -265,7 +284,20 @@ export default function ContactForm() {
             "Send Inquiry"
           )}
         </button>
+
+        {/* Disclosure Line (sits directly below the Send Inquiry button) */}
+        <p className="font-sans text-[11px] text-[#8a7a5f] text-center mt-2.5">
+          By submitting, you agree to our{" "}
+          <Link
+            href="/privacy"
+            className="text-[#C89A4B] underline hover:no-underline transition-colors"
+          >
+            Privacy Policy
+          </Link>
+          .
+        </p>
       </div>
     </form>
   );
 }
+
