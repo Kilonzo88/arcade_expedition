@@ -6,13 +6,13 @@ import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Turnstile } from "@marsidev/react-turnstile";
-import { contactFormSchema, ContactFormData, submitContactForm } from "@/app/contact/actions";
+import { contactFormSchema, ContactFormData, InquiryFormData, submitInquiry } from "@/app/contact/actions";
 
 const journeyOptions = [
+  { value: "bespoke", label: "Bespoke Journey (Custom journey not listed)" },
   { value: "namibia", label: "Namibia" },
   { value: "rwanda-uganda", label: "Rwanda & Uganda" },
   { value: "kenya-tanzania", label: "Kenya & Tanzania" },
-  { value: "bespoke", label: "A bespoke journey (not listed)" },
 ];
 
 export default function ContactForm() {
@@ -33,7 +33,7 @@ export default function ContactForm() {
       fullName: "",
       email: "",
       phone: "",
-      journey: "",
+      journey: "Bespoke Journey (Custom journey not listed)",
       noExactDates: false,
       startDate: "",
       endDate: "",
@@ -58,15 +58,32 @@ export default function ContactForm() {
       if (match) {
         setValue("journey", match.label);
       }
+    } else {
+      setValue("journey", "Bespoke Journey (Custom journey not listed)");
     }
   }, [searchParams, setValue]);
 
   const onSubmit = async (data: ContactFormData) => {
     setServerError(null);
-    const res = await submitContactForm({
-      ...data,
-      turnstileToken: turnstileToken || data.turnstileToken,
-    });
+    
+    // Map to InquiryFormData schema
+    const inquiryData: InquiryFormData = {
+      fullName: data.fullName,
+      email: data.email,
+      phone: data.phone || null,
+      journey: data.journey,
+      datesFlexible: !!data.noExactDates,
+      flexibleDatesText: data.flexibleDatesText || null,
+      dateRange: (data.startDate || data.endDate) ? {
+        from: data.startDate || null,
+        to: data.endDate || null,
+      } : null,
+      message: data.message || null,
+      company: data.company || null,
+      turnstileToken: turnstileToken || data.turnstileToken || null,
+    };
+
+    const res = await submitInquiry(inquiryData);
     if (res.success) {
       setIsSuccess(true);
     } else {
