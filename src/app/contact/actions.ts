@@ -2,7 +2,6 @@
 import { Resend } from "resend";
 import { z } from "zod";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const contactFormSchema = z.object({
   fullName: z.string().min(1, "Full name is required"),
@@ -97,6 +96,7 @@ export async function submitInquiry(data: InquiryFormData) {
         ? `${formatDate(validated.dateRange.from)} – ${formatDate(validated.dateRange.to)}`
         : "Not specified";
 
+    const resend = new Resend(process.env.RESEND_API_KEY);
     await resend.emails.send({
       from: "Arcane Expeditions Website <inquiries@arcaneexpeditions.com>",
       to: "hello@arcaneexpeditions.com",
