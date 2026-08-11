@@ -1,35 +1,78 @@
 "use server";
-// Next.js Server Action for Contact Form submission
 import { Resend } from "resend";
 import { z } from "zod";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const contactFormSchema = z.object({
   fullName: z.string().min(1, "Full name is required"),
   email: z.string().min(1, "Email is required").email("Please enter a valid email address"),
-  phone: z.string().optional(),
+  phone: z.string().optional().nullable(),
   journey: z.string().min(1, "Please select a journey of interest"),
   noExactDates: z.boolean().optional(),
-  startDate: z.string().optional(),
-  endDate: z.string().optional(),
-  flexibleDatesText: z.string().optional(),
-  message: z.string().optional(),
-  company: z.string().optional(), // Honeypot field
-  turnstileToken: z.string().optional(),
+  startDate: z.string().optional().nullable(),
+  endDate: z.string().optional().nullable(),
+  flexibleDatesText: z.string().optional().nullable(),
+  message: z.string().optional().nullable(),
+  company: z.string().optional().nullable(), // Honeypot field
+  turnstileToken: z.string().optional().nullable(),
 });
 
 export type ContactFormData = z.infer<typeof contactFormSchema>;
 
-export async function submitContactForm(data: ContactFormData) {
-  try {
-    // 1. Server-side re-validation
-    const validated = contactFormSchema.parse(data);
+export const inquiryFormSchema = z.object({
+  fullName: z.string().min(1, "Full name is required"),
+  email: z.string().min(1, "Email is required").email("Please enter a valid email address"),
+  phone: z.string().optional().nullable(),
+  journey: z.string().min(1, "Please select a journey of interest"),
+  datesFlexible: z.boolean(),
+  flexibleDatesText: z.string().optional().nullable(),
+  dateRange: z.object({
+    from: z.string().optional().nullable(),
+    to: z.string().optional().nullable(),
+  }).optional().nullable(),
+  message: z.string().optional().nullable(),
+  company: z.string().optional().nullable(), // Honeypot field
+  turnstileToken: z.string().optional().nullable(),
+});
 
-    // 2. Honeypot check (silent rejection for spam bots)
+export type InquiryFormData = z.infer<typeof inquiryFormSchema>;
+
+// Helper to escape HTML characters to prevent injection
+function escapeHtml(text: string | null | undefined): string {
+  if (!text) return "";
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+// Helper to format dates to "12 Jun 2027" format
+function formatDate(date: string | Date | null | undefined): string {
+  if (!date) return "Not specified";
+  const d = new Date(date);
+  if (isNaN(d.getTime())) return "Not specified";
+  const day = d.getDate();
+  const month = d.toLocaleDateString("en-US", { month: "short" });
+  const year = d.getFullYear();
+  return `${day} ${month} ${year}`;
+}
+
+export async function submitInquiry(data: InquiryFormData) {
+  try {
+    // 1. Re-validate server-side with the same zod schema used client-side
+    const validated = inquiryFormSchema.parse(data);
+
+    // 3. Check the honeypot field; if filled, return { success: true }
+    //    without sending anything — don't tip off the bot
     if (validated.company && validated.company.trim() !== "") {
+      console.log("[Honeypot Triggered] Silent redirection");
       return { success: true };
     }
 
-    // 3. Turnstile token verification (if secret key configured)
+    // 2. Verify the Turnstile token server-side against Cloudflare's API
     const turnstileSecret = process.env.TURNSTILE_SECRET_KEY;
     if (turnstileSecret && validated.turnstileToken) {
       const verifyRes = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
@@ -42,54 +85,33 @@ export async function submitContactForm(data: ContactFormData) {
       });
       const verifyOutcome = await verifyRes.json();
       if (!verifyOutcome.success) {
+        console.log("[Turnstile Verification Failed] Silent rejection");
         // Treat as failed honeypot check silently
         return { success: true };
       }
     }
 
-    // 3. Prepare email content
-    const resendApiKey = process.env.RESEND_API_KEY;
+    const dateText = validated.datesFlexible
+      ? validated.flexibleDatesText ?? "Not specified"
+      : validated.dateRange
+        ? `${formatDate(validated.dateRange.from)} – ${formatDate(validated.dateRange.to)}`
+        : "Not specified";
 
-    let travelDatesInfo = "Not specified";
-    if (validated.noExactDates) {
-      travelDatesInfo = validated.flexibleDatesText
-        ? `Flexible: ${validated.flexibleDatesText}`
-        : "Flexible / No exact dates yet";
-    } else if (validated.startDate || validated.endDate) {
-      travelDatesInfo = `${validated.startDate || "N/A"} to ${validated.endDate || "N/A"}`;
-    }
-
-    const emailBody = `
-New Safari Inquiry from Arcane Expeditions Website:
-
---------------------------------------------------
-Full Name: ${validated.fullName}
-Email: ${validated.email}
-Phone / WhatsApp: ${validated.phone || "Not provided"}
-Journey of Interest: ${validated.journey}
-Preferred Travel Dates: ${travelDatesInfo}
---------------------------------------------------
-
-Message:
-${validated.message || "No additional message provided."}
-    `.trim();
-
-    // 4. Send email via Resend if API key is provided
-    if (resendApiKey) {
-      const resend = new Resend(resendApiKey);
-      await resend.emails.send({
-        from: "Arcane Expeditions Inquiry <onboarding@resend.dev>",
-        to: ["arcaneexpeditions@outlook.com"],
-        subject: `New Safari Inquiry: ${validated.journey} - ${validated.fullName}`,
-        text: emailBody,
-        replyTo: validated.email,
-      });
-    } else {
-      console.log("--------------------------------------------------");
-      console.log("[Resend API Key missing - Logging inquiry locally]");
-      console.log(emailBody);
-      console.log("--------------------------------------------------");
-    }
+    await resend.emails.send({
+      from: "Arcane Expeditions Website <inquiries@arcaneexpeditions.com>",
+      to: "hello@arcaneexpeditions.com",
+      replyTo: validated.email,
+      subject: `New Inquiry: ${validated.journey} — ${validated.fullName}`,
+      html: `
+        <h2>New Journey Inquiry</h2>
+        <p><strong>Name:</strong> ${escapeHtml(validated.fullName)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(validated.email)}</p>
+        <p><strong>Phone:</strong> ${escapeHtml(validated.phone ?? "Not provided")}</p>
+        <p><strong>Journey:</strong> ${escapeHtml(validated.journey)}</p>
+        <p><strong>Dates:</strong> ${escapeHtml(dateText)}</p>
+        <p><strong>Message:</strong><br/>${escapeHtml(validated.message ?? "No message provided")}</p>
+      `,
+    });
 
     return { success: true };
   } catch (error) {
