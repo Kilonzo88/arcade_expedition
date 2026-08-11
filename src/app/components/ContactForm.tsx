@@ -6,7 +6,8 @@ import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Turnstile } from "@marsidev/react-turnstile";
-import { contactFormSchema, ContactFormData, InquiryFormData, submitInquiry } from "@/app/contact/actions";
+import { contactFormSchema, ContactFormData, InquiryFormData } from "@/app/contact/schemas";
+import { submitInquiry } from "@/app/contact/actions";
 
 const journeyOptions = [
   { value: "bespoke", label: "Bespoke Journey (Custom journey not listed)" },
