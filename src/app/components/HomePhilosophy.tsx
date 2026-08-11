@@ -1,6 +1,6 @@
 export default function HomePhilosophy() {
   return (
-    <section className="section-ivory pt-8 pb-10 text-center">
+    <section id="philosophy" className="section-ivory pt-8 pb-10 text-center">
       {/* Eyebrow — centered and gold */}
       <p
         style={{
