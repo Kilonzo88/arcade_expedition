@@ -1,6 +1,4 @@
-"use client";
-
-import { Button } from "@/components/ui/button";
+import React from "react";
 
 export function HeroCopy() {
   return (
@@ -12,22 +10,25 @@ export function HeroCopy() {
       </h1>
 
       <p className="font-sans text-sm md:text-base leading-relaxed text-luxury-tan mb-7 max-w-[26ch] md:max-w-[32ch]">
-        End-to-end private safaris across East Africa, arranged down to the
+        End-to-end private safaris across Africa, arranged down to the
         last detail.
       </p>
 
-      <a href="#contact">
-        <Button
-          variant="gold"
-          className="
-            font-sans font-medium tracking-widest text-sm
-            rounded-full
-            px-7 py-2.5
-            transition-all duration-200
-          "
-        >
-          Plan your journey
-        </Button>
+      <a
+        href="#contact"
+        className="block w-full md:w-auto md:min-w-[280px] text-center transition-opacity hover:opacity-90"
+        style={{
+          backgroundColor: "var(--luxury-gold)",
+          color: "var(--ivory)",
+          borderRadius: "2px",
+          padding: "16px",
+          fontSize: "14px",
+          textDecoration: "none",
+          fontFamily: "var(--font-sans)",
+          letterSpacing: "0.04em",
+        }}
+      >
+        Plan Your Journey
       </a>
     </div>
   );
