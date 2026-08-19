@@ -8,20 +8,45 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
-  const isNonHero = pathname !== "/";
+  const heroPages = [
+    "/",
+    "/journeys/kenya-tanzania",
+    "/journeys/namibia",
+    "/journeys/rwanda-uganda",
+  ];
+  const isNonHero = !heroPages.includes(pathname);
   const isSolid = scrolled || isNonHero;
 
   useEffect(() => {
-    if (isNonHero) return;
-    const onScroll = () => {
+    if (isNonHero) {
+      setScrolled(true);
+      return;
+    }
+
+    const checkScroll = () => {
       if (window.scrollY > 60) {
         setScrolled(true);
-        window.removeEventListener("scroll", onScroll);
+      } else {
+        setScrolled(false);
+        const onScroll = () => {
+          if (window.scrollY > 60) {
+            setScrolled(true);
+            window.removeEventListener("scroll", onScroll);
+          }
+        };
+        window.addEventListener("scroll", onScroll, { passive: true });
+        return onScroll;
       }
     };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [isNonHero]);
+
+    const scrollListener = checkScroll();
+
+    return () => {
+      if (scrollListener) {
+        window.removeEventListener("scroll", scrollListener);
+      }
+    };
+  }, [isNonHero, pathname]);
 
   return (
     <>
@@ -150,20 +175,33 @@ export default function Navbar() {
         `}
       >
         <nav className="flex flex-col items-center gap-6 py-10 text-white">
-          {/* Plan Your Journey — first/most prominent */}
+          <a
+            href="/#philosophy"
+            onClick={() => setMenuOpen(false)}
+            className="font-sans text-base tracking-widest uppercase text-white hover:text-white/70 transition-colors"
+          >
+            Our Philosophy
+          </a>
           <a
             href="/journeys"
             onClick={() => setMenuOpen(false)}
             className="font-sans text-base tracking-widest uppercase text-white hover:text-white/70 transition-colors"
           >
-            Plan Your Journey
+            Journeys
           </a>
           <a
             href="/about"
             onClick={() => setMenuOpen(false)}
             className="font-sans text-base tracking-widest uppercase text-white hover:text-white/70 transition-colors"
           >
-            Our Story
+            About Us
+          </a>
+          <a
+            href="/contact"
+            onClick={() => setMenuOpen(false)}
+            className="font-sans text-base tracking-widest uppercase text-white hover:text-white/70 transition-colors"
+          >
+            Plan Your Journey
           </a>
         </nav>
       </div>
