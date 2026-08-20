@@ -37,20 +37,28 @@ export async function submitInquiry(data: InquiryFormData) {
     }
 
     // 2. Verify the Turnstile token server-side against Cloudflare's API
+    if (!validated.turnstileToken) {
+      return { success: false, error: "Verification token is missing. Please refresh and try again." };
+    }
+
     const turnstileSecret = process.env.TURNSTILE_SECRET_KEY;
-    if (turnstileSecret && validated.turnstileToken) {
-      const verifyRes = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({
-          secret: turnstileSecret,
-          response: validated.turnstileToken,
-        }),
-      });
-      const verifyOutcome = await verifyRes.json();
-      if (!verifyOutcome.success) {
-        return { success: true };
-      }
+    if (!turnstileSecret) {
+      console.error("TURNSTILE_SECRET_KEY is not configured in the environment.");
+      return { success: false, error: "Bot verification is not configured on the server." };
+    }
+
+    const verifyRes = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        secret: turnstileSecret,
+        response: validated.turnstileToken,
+      }),
+    });
+
+    const verifyOutcome = await verifyRes.json();
+    if (!verifyOutcome.success) {
+      return { success: false, error: "Bot verification failed. Please try again." };
     }
 
     const dateText = validated.datesFlexible

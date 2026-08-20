@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Turnstile } from "@marsidev/react-turnstile";
+import { Turnstile, TurnstileInstance } from "@marsidev/react-turnstile";
 import { contactFormSchema, ContactFormData, InquiryFormData } from "@/app/contact/schemas";
 import { submitInquiry } from "@/app/contact/actions";
 
@@ -21,6 +21,7 @@ export default function ContactForm() {
   const [serverError, setServerError] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const turnstileRef = useRef<TurnstileInstance>(null);
 
   const {
     register,
@@ -66,6 +67,11 @@ export default function ContactForm() {
 
   const onSubmit = async (data: ContactFormData) => {
     setServerError(null);
+
+    if (!turnstileToken) {
+      setServerError("Please complete the bot verification challenge.");
+      return;
+    }
     
     // Map to InquiryFormData schema
     const inquiryData: InquiryFormData = {
@@ -89,6 +95,10 @@ export default function ContactForm() {
       setIsSuccess(true);
     } else {
       setServerError(res.error || "An error occurred while submitting your inquiry.");
+      // Reset Turnstile token and widget to allow a fresh retry
+      turnstileRef.current?.reset();
+      setTurnstileToken(null);
+      setValue("turnstileToken", "");
     }
   };
 
@@ -274,10 +284,20 @@ export default function ContactForm() {
       {/* 7. Turnstile Widget (placed directly above Send Inquiry button inside the form) */}
       <div className="flex justify-center pt-2">
         <Turnstile
+          ref={turnstileRef}
           siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "1x00000000000000000000AA"}
           onSuccess={(token) => {
             setTurnstileToken(token);
             setValue("turnstileToken", token);
+            setServerError(null);
+          }}
+          onExpire={() => {
+            setTurnstileToken(null);
+            setValue("turnstileToken", "");
+          }}
+          onError={() => {
+            setTurnstileToken(null);
+            setValue("turnstileToken", "");
           }}
           options={{ theme: "light" }}
         />
