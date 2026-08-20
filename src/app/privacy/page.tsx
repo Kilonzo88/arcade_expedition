@@ -40,8 +40,8 @@ export default function PrivacyPage() {
           <h2 className="font-display text-xl text-[#16140F] pt-4">4. Contact Us</h2>
           <p>
             If you have questions regarding this Privacy Policy or wish to request data updates, please contact us at{" "}
-            <a href="mailto:arcaneexpeditions@outlook.com" className="text-[#C89A4B] underline">
-              arcaneexpeditions@outlook.com
+            <a href="mailto:info@arcaneexpeditions.com" className="text-[#C89A4B] underline">
+              info@arcaneexpeditions.com
             </a>
             .
           </p>

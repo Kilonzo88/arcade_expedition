@@ -75,7 +75,7 @@ export default function Navbar() {
           {/* Left — email icon */}
           <div className="justify-self-start">
             <a
-              href="mailto:Arcaneexpeditions@outlook.com?subject=Safari%20Enquiry"
+              href="mailto:info@arcaneexpeditions.com?subject=Safari%20Enquiry"
               aria-label="Email us about a safari enquiry"
               className={`
                 flex items-center justify-center
