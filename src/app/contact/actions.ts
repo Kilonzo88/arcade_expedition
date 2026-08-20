@@ -49,16 +49,16 @@ export async function submitInquiry(data: InquiryFormData) {
 
     const verifyRes = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
       method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
         secret: turnstileSecret,
         response: validated.turnstileToken,
       }),
     });
 
-    const verifyOutcome = await verifyRes.json();
-    if (!verifyOutcome.success) {
-      return { success: false, error: "Bot verification failed. Please try again." };
+    const verifyJson = await verifyRes.json();
+    if (!verifyJson.success) {
+      return { success: false, error: "Verification failed" };
     }
 
     const dateText = validated.datesFlexible
@@ -70,7 +70,7 @@ export async function submitInquiry(data: InquiryFormData) {
     const resend = new Resend(process.env.RESEND_API_KEY);
     await resend.emails.send({
       from: "Arcane Expeditions Website <inquiries@arcaneexpeditions.com>",
-      to: "hello@arcaneexpeditions.com",
+      to: "info@arcaneexpeditions.com",
       replyTo: validated.email,
       subject: `New Inquiry: ${validated.journey} — ${validated.fullName}`,
       html: `
@@ -81,6 +81,8 @@ export async function submitInquiry(data: InquiryFormData) {
         <p><strong>Journey:</strong> ${escapeHtml(validated.journey)}</p>
         <p><strong>Dates:</strong> ${escapeHtml(dateText)}</p>
         <p><strong>Message:</strong><br/>${escapeHtml(validated.message ?? "No message provided")}</p>
+        <hr/>
+        <p style="color:#8a7a5f;font-size:12px;">Sent from the Plan Your Journey form on arcaneexpeditions.com</p>
       `,
     });
 
