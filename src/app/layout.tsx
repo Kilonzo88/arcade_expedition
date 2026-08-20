@@ -41,8 +41,8 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Arcade Expeditions | Cosmic Retro Portal",
-  description: "Embark on neon quest challenges across the galaxy. Coordinate your retro console gaming expeditions.",
+  title: "Arcane Expeditions | Luxury Safari Journeys",
+  description: "Embark on bespoke luxury safaris across East and Southern Africa, including Namibia, Rwanda, Uganda, Kenya, and Tanzania.",
 };
 
 export default function RootLayout({
