@@ -56,7 +56,7 @@ export const journeys: Journey[] = [
     tagline: "The endless savanna pulse, Mara river crossings, and untamed natural drama across the Serengeti.",
     image: "/wildebeest-migration.avif",
     imageAlt: "Wildebeest crossing the Mara River during the Great Migration, Kenya",
-    listingImage: "/savannah-kenya-tz.png",
+    listingImage: "/savannah-kenya-tz.avif",
     listingImageAlt: "Golden acacia savanna landscape across Kenya and Tanzania",
     pricing: {
       startingFrom: 11200,
