@@ -41,8 +41,30 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Arcane Expeditions | Luxury Safari Journeys",
-  description: "Embark on bespoke luxury safaris across East and Southern Africa, including Namibia, Rwanda, Uganda, Kenya, and Tanzania.",
+  metadataBase: new URL("https://arcaneexpeditions.com"),
+  title: {
+    default: "Arcane Expeditions | Bespoke Luxury Safaris, East Africa",
+    template: "%s | Arcane Expeditions",
+  },
+  description:
+    "End-to-end private safaris across Africa, arranged down to the last detail. Every journey, tailored to one guest, not a group. No fixed itineraries. No shared vehicles. Just your pace, your camp, your Africa.",
+  openGraph: {
+    title: "Arcane Expeditions | Bespoke Luxury Safaris, East Africa",
+    description:
+      "Fully bespoke luxury safaris across Namibia, Rwanda & Uganda, and Kenya & Tanzania — tailored to one guest, not a group. Let us craft your legend.",
+    url: "https://arcaneexpeditions.com",
+    siteName: "Arcane Expeditions",
+    images: [{ url: "/luxury_safari.jpg", width: 1200, height: 630 }],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Arcane Expeditions | Bespoke Luxury Safaris, East Africa",
+    description:
+      "Fully bespoke luxury safaris across Namibia, Rwanda & Uganda, and Kenya & Tanzania — tailored to one guest, not a group.",
+    images: ["/luxury_safari.jpg"],
+  },
 };
 
 export default function RootLayout({
@@ -57,6 +79,23 @@ export default function RootLayout({
       style={{ colorScheme: "dark" }}
     >
       <body className="min-h-full flex flex-col justify-start">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "TravelAgency",
+              name: "Arcane Expeditions",
+              url: "https://arcaneexpeditions.com",
+              logo: "https://arcaneexpeditions.com/arcane-expeditions-logo.svg",
+              sameAs: [
+                "https://www.instagram.com/arcaneexpeditions",
+                "https://www.facebook.com/arcaneexpeditions",
+                "https://www.linkedin.com/company/arcaneexpeditions",
+              ],
+            }),
+          }}
+        />
         <Navbar />
         {children}
         <FloatingWhatsApp />
